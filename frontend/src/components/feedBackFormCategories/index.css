@@ -1,0 +1,80 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+table {
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px 16px;
+    
+   
+}
+
+th {
+    text-align: left;
+}
+
+.header {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.subheader {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.color-text-green{
+    color: green;
+    font-weight: bold;
+}
+.color-text-red{
+    color: red;
+    font-weight: bold;
+}
+.color-text option{
+    color: black;
+}
+.color-text-red option{
+    color: black;
+}
+
+.pink-bg-color{
+    background-color: #ECB365;
+    
+    color: #0B2447;
+}
+.light-bg-color{
+    background-color: #F8F6E3;
+    color: #141E61;
+}
+
+.input-select-tag{
+    height: 30px;
+    width: 100px;
+    font-size: 15px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+.category-name{
+    font-weight: bold;
+}
+
+.input-select-tag:hover {
+    border: #378CE7 solid 3px; /* Border effect */
+   
+    color: #164863; /* Text color change */
+    height: 30px;
+    width: 100px;
+    font-size: 15px;
+    padding-left: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }

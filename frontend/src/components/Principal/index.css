@@ -1,0 +1,227 @@
+.hod-bg-container{
+    min-height: 100vh;
+    display: flex;
+   
+    background-color: #FFFBDA;
+    flex-direction: column;
+
+}
+.principal-form{
+    width: 30%;
+   
+    background-color: #03506F;
+    color: white;
+    height: 500px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px 0px  0px 10px;
+} 
+.principal-panel-img{
+    height: 500px;
+    border-radius:  0px 10px 10px 0px;
+    align-self: center;
+}
+.principal-form-bg-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.hod-input{
+    display: block;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 7px;
+    outline: none;
+    padding-left: 10px;
+    border-width: 0px;
+    background-color: #dde6fc;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-right: 10px;
+}
+.hod-input-take-container{
+    margin-top: 10px;
+}
+.hod-input-take-container label{
+    font-size: 17px;
+}
+.principal-submit-btn{
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 6px;
+    padding: 5px;
+    background-color: white;
+    color: #03506F;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100px;
+    height: 40px;
+    font-weight: bold;
+}
+.subject-input-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.principal-faculty-names{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+    margin-right: 10px;
+}
+.principal-clicked {
+    background-color: #FFC470; /* Set your desired background color */
+    height: 25px;
+    padding: 10px;
+    padding-top: 15px;
+    border-radius: 10px;
+   font-weight: bold;
+   color: #153448;
+   cursor: pointer;
+   margin-right: 10px;
+  }
+
+ .principal-not-clicked{
+    background-color:#153448 ;
+    color: white;
+    height: 25px;
+    padding: 10px;
+    padding-top: 15px;
+    border-radius: 10px;
+   font-weight: bold;
+   cursor: pointer;
+   margin-right: 10px;
+ }
+ .principal-not-clicked:hover{
+    background-color: #ECB365;
+    color: #153448;
+    transition: 0.5s;
+ }
+ .principal-faculty-result-container{
+    padding:5px 4%;
+    display: flex;
+    flex-direction: column;
+    
+ }
+ .feedback-data-info-bg-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+ }
+ .principal-class-room-info{
+    padding: 20px;
+    background-color: #153448;
+    color: white;
+    border-radius: 10px;
+    
+ }
+ .table-back-container{
+    display: flex;
+    flex-direction: column;
+   
+   
+ }
+.toggle-view-btn,
+ .back-btn{
+   
+    color: #064663;
+    background-clip: #BBBBBB;
+    height: 40px;
+    align-self: flex-start;
+    border: none;
+    width: 100px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    border-color: #03506F;
+    border-style: solid;
+cursor: pointer;
+    
+
+ }
+ .toggle-view-btn:hover,
+ .back-btn:hover{
+    color: white;
+   background-color: #03506F;
+   border-color: #ECB365;
+   transition: 0.2s;
+ }
+
+
+ .table-graph-container{
+    margin: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ }
+ .principal-table-container {
+    width: 60%;
+    margin-top: 20px;
+    overflow-x: auto;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .principal-table {
+    width: 85%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .principal-table th,
+  .principal-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    
+  }
+  
+  .principal-table th {
+    background-color:#153448;
+    color: white;
+    
+  }
+  .percentage-row{
+    font-weight: 600;
+    width: 20%;
+  }
+  
+  .principal-table tr:nth-child(even) {
+    background-color: #ECB365;
+    color: #153448;
+    transition: 0.3s;
+  }
+  
+  .principal-table tr:nth-child(odd) {
+   color: #153448;
+    background-color: white;
+    transition: 0.3s;
+  }
+  .category-row{
+    width: 50%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+  }
+  
+  /* .principal-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  .principal-table tr:nth-child(odd) :hover {
+   color: #03506F;
+  } */
+
+ 

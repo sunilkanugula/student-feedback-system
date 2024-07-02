@@ -1,0 +1,9 @@
+{
+    "sqltools.connections": [
+        {
+            "driver": "SQLite",
+            "name": "feedback",
+            "database": "${workspaceFolder:SFS}/backend/feedback.db"
+        }
+    ]
+}

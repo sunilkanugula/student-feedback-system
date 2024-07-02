@@ -1,0 +1,168 @@
+body{
+    margin: 0px;
+    padding: 0px;
+  }
+  /* .svc-feedback-form-container{
+    display: flex;
+    flex-direction: column;
+  } */
+  .top-hading-container{
+    text-align: center;
+    margin: 0px;
+    display: flex;
+    flex-direction:column;
+    background-color: #0a3457;
+    color: white;
+  
+  }
+  .college-info-container{
+    
+    color: white;
+    display: flex;
+    flex-direction: row;
+    border-bottom:white solid 1px;
+  
+  }
+  
+  thead{
+    background-color: #064663;
+    color: white;
+    height: 100px;
+    
+   
+  }
+  .svc-logo{
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 20px;
+    
+    margin-left: 30px;
+  }
+  .college-heading-container{
+    width: 80%;
+  }
+
+  .logout-btn{
+     background-color: #ECB365;
+     color: #064663;
+     height: 40px;
+     align-self: center;
+     border: none;
+     width: 100px;
+     border-radius: 5px;
+     font-weight: bold;
+     margin-bottom: 40px;
+
+  }
+  .calculate-percentage-btn{
+    background-color: #0a3457;
+    height: 40px;
+    color: white;
+    border:none;
+    font-weight: 500;
+    border-radius: 10px;
+  }
+  .bottom-button-container{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  /* Add these styles to your existing CSS file or style block */
+  .pop-up-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark transparent color */
+    z-index: 998; /* Ensure the overlay is below the pop-up container */
+  }
+  
+  .pop-up-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0a3457;
+    color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999; /* Ensure the pop-up container is above the overlay */
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    border-radius: 10px;
+    width: 300px;
+  }
+  .pop-up-container h3 {
+    color: #ECB365;
+  }
+  .pop-up-container button {
+    margin-bottom: 10px;
+  }
+
+  .back-logout-btn{
+    margin-left: 5px;
+    color: #064663;
+    height: 30px;
+    font-weight: bold;
+  }
+  .student-input-form-bg-container{
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+    justify-content: center;
+    padding: 5%;
+  }
+  .student-input-form-inner-container{
+    background-color: #0a3457;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+   
+  }
+  .student-input-label{
+   color: #ccc;
+   font-size: 17px;
+   font-weight: bold;
+
+  }
+
+  .student-input-take-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .student-input{
+   
+    margin-top: 5px;
+    height: 30px;
+    color: #064663;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  .student-display-faculty-btn{
+    background-color: #ECB365;
+    color: #064663;
+    width: 70%;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    height: 35px;
+    cursor: pointer;
+
+  }
+  .student-display-faculty-btn:hover{
+    background-color: white;
+    transition: 0.4s;
+  }
+  .student-feedback-heading{
+    color: #064663;
+    text-align: center;
+    height: 30px;
+    margin: 0px;
+    margin-top: 7px;
+  }
