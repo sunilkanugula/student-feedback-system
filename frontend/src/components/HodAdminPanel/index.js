@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import React, { useState, useContext } from "react";
 import FeedbackContext from "../../context/FeedbackContext.js";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./index.css";
 
 const branchList = ["CSE", "AIML", "CSM", "ECE", "EEE", "CIVIL", "MECH"];
@@ -97,7 +97,7 @@ const HodAdminPanel = () => {
       };
 
       try {
-        const response = await fetch("http://localhost:5000/saveFormData", {
+        const response = await fetch("https://student-feedback-system-8ln5.onrender.com/saveFormData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -120,7 +120,15 @@ const HodAdminPanel = () => {
       alert("Please submit all inputs");
     }
   };
+ 
+  const branchToken = Cookies.get('branch_token');
+  const jwtToken = Cookies.get("jwt_token")
+  if(!jwtToken){
+   return <Navigate to="/hod-login"/>
+  }
+  else{
 
+  
   return (
     <div className="hod-bg-container">
       <div className="top-hading-container">
@@ -131,14 +139,9 @@ const HodAdminPanel = () => {
             alt="SVC Logo"
           />
           <div className="college-heading-container">
-            <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
-            <p>
-              Approved by AICTE, New Delhi, Affiliated to JNTUK,
-              Vizianagaram ISO 9001:2015 Certified
-            </p>
-            <p>
-              Contact: +91 9705576693 Email: principal@svcet.edu.in
-            </p>
+          <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
+              <p>Approved by AICTE, New Delhi, Affiliated to JNTUK, Vizianagaram  ISO 9001:2015 Certified</p>
+              <p>Contact: +91 9705576693  Email: principal_svcet@yahoo.com,www.svcet.net</p>
           </div>
           <button
             type="button"
@@ -171,7 +174,7 @@ const HodAdminPanel = () => {
               className="hod-input"
               id="department"
               name="department"
-              value={hodBranch}
+              value={branchToken}
               disabled
             >
               {branchList.map((each) => (
@@ -266,6 +269,7 @@ const HodAdminPanel = () => {
       </div>
     </div>
   );
+}
 };
 
 export default HodAdminPanel;

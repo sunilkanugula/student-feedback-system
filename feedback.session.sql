@@ -1,1 +1,1 @@
-SELECT * FROM FeedbackData
+DELETE from Principal

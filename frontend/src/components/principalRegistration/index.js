@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from "uuid"
 
-import './StudentRegistrationForm.css';
-const branchList = [
-  "CSE",
-  "AIML",
-  "CSM",
-  "ECE",
-  "EEE",
-  "CIVIL",
-  "MECH"
-]
+import './index.css';
+
 
 class StudentRegistrationForm extends Component {
   constructor(props) {
@@ -18,7 +10,7 @@ class StudentRegistrationForm extends Component {
     this.state = {
       username: '',
       password: '',
-      branch: branchList[0],
+     
     
     };
   }
@@ -34,44 +26,46 @@ class StudentRegistrationForm extends Component {
   }
 
  
-  onChangeBranch = (e) => {
-    const { value } = e.target
-    this.setState({ branch: value })
-    console.log(value)
-  }
 
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, password, branch } = this.state;
-    const formData = {
-      hod_id: uuidv4(),
-      username,
-      password,
-      branch,
-    };
-  
-    try {
-      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/hod-register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-  
-      if (response.ok) {
-        const data = await response.text();
-        alert(data); // Show success message
-        window.location.replace("/hod-login")
-      } else {
-        const errorMessage = await response.text();
-        alert(errorMessage); // Show the error message from the backend
+    const { username, password } = this.state;
+    if(username !== "" && password !==""){
+      const formData = {
+        principal_id: uuidv4(),
+        username,
+        password,
+       
+      };
+    
+      try {
+        const response = await fetch('https://student-feedback-system-8ln5.onrender.com/principal-register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+    
+        if (response.ok) {
+          const data = await response.text();
+          alert(data); // Show success message
+          window.location.replace("/principal-login")
+        } else {
+          const errorMessage = await response.text();
+          alert(errorMessage); // Show the error message from the backend
+        }
+      } catch (error) {
+        console.error(error.message);
+        alert('Failed to register HOD');
       }
-    } catch (error) {
-      console.error(error.message);
-      alert('Failed to register HOD');
+      
     }
+    else{
+      alert("Please enter valid username and password")
+    }
+ 
   };
   
   render() {
@@ -104,15 +98,10 @@ class StudentRegistrationForm extends Component {
               <h4>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h4>
             </div>
             <label style={{ marginTop: '20px' }} htmlFor="username">Username</label>
-            <input className="register-input-field" type="text" id="username" value={this.state.username} onChange={this.onChangeUserName} />
+            <input placeholder=' Username' className="register-input-field" type="text" id="username" value={this.state.username} onChange={this.onChangeUserName} />
             <label htmlFor="password">Password</label>
-            <input className="register-input-field" type="password" id="password" value={this.state.password} onChange={this.onChangePassword} />
-
-           <label htmlFor="username">Branch</label>
-            <select className="register-input-field" onChange={this.onChangeBranch} value={this.state.branch}>
-              {branchList.map(each => <option value={each} key={each}>{each}</option>)}
-            </select>
-            <button>Submit</button>
+            <input  placeholder=" Password" className="register-input-field" type="password" id="password" value={this.state.password} onChange={this.onChangePassword} />
+            <button>register</button>
           </form>
         </div>
       </div>

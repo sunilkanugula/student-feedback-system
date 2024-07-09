@@ -58,8 +58,8 @@ class Principal extends Component {
   };
 
   onClickLogout = () => {
-    Cookies.remove('jwt_token');
-    window.location.replace('/hod-login');
+    Cookies.remove('principal_jwt_token');
+    window.location.replace('/principal-login');
   };
 
   onChangeSection = (e) => this.setState({ section: e.target.value });
@@ -78,7 +78,7 @@ class Principal extends Component {
       feedback !== ""
     ) {
       try {
-        const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
+        const response = await fetch('https://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -93,7 +93,9 @@ class Principal extends Component {
         });
 
         if (!response.ok) {
+          alert("No data found");
           throw new Error('Failed to fetch data');
+          
         }
 
         const data = await response.json();
@@ -123,7 +125,7 @@ class Principal extends Component {
     const facultyName = facultyNames[index];
 
     try {
-      const response = await fetch('http://localhost:5000/checkResults', {
+      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/checkResults', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -279,7 +281,7 @@ class Principal extends Component {
             <img className='svc-logo' src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg" alt="SVC Logo" />
             <div className='college-heading-container'>
               <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
-              <p>Approved by AICTE, New Delhi, Affiliated to JNTUK, Vizianagaram  ISO 9001:2015 Certified</p>
+              <p>Approved by AICTE, New Delhi, Affiliated to JNTUGV, Vizianagaram  ISO 9001:2015 Certified</p>
               <p>Contact: +91 9705576693  Email: principal_svcet@yahoo.com,www.svcet.net</p>
             </div>
             <button

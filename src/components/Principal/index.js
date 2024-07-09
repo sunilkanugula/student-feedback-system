@@ -79,7 +79,7 @@ class Principal extends Component {
       feedback !== ""
     ) {
       try {
-        const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
+        const response = await fetch('https://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ class Principal extends Component {
     const facultyName = facultyNames[index];
 
     try {
-      const response = await fetch('http://localhost:5000/checkResults', {
+      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/checkResults', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

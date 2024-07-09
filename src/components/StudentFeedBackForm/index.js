@@ -86,7 +86,7 @@ class StudentFeedBackForm extends Component {
   insertFeedbackData = async () => {
     const { allSubjectsReview ,formId} = this.state;
     try {
-        const response = await fetch('http://localhost:5000/FeedbackData', {
+        const response = await fetch('https://student-feedback-system-8ln5.onrender.com/FeedbackData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -268,7 +268,7 @@ displayTablePage = () => {
     
 
     try {
-      const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
+      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

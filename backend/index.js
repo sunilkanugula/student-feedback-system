@@ -117,6 +117,31 @@ app.post("/hod-register", async (req, res) => {
     }
 });
 
+app.post("/principal-register", async (req, res) => {
+    const { principal_id, username, password } = req.body;
+    const final_password = await bcrypt.hash(password, 10);
+
+    try {
+        // Check if the username already exists
+        const checkUsernameQuery = `SELECT * FROM Principal WHERE username = ?`;
+        const existingUser = await db.get(checkUsernameQuery, [username]);
+
+        if (existingUser) {
+            res.status(400).send("Username already exists");
+            return; // Exit the function
+        }
+
+        // If the username doesn't exist, proceed with registration
+        const insertQuery = `INSERT INTO Principal (principal_id, username, password) VALUES (?, ?, ?)`;
+        await db.run(insertQuery, [principal_id, username, final_password]);
+
+        res.send("Registration successful");
+    } catch (error) {
+        console.error("Error registering Principal:", error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 // Route to handle login
 app.post("/login", async (req, res) => {
     const { username, password ,branch} = req.body;
@@ -182,6 +207,48 @@ app.post("/hod-login", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+app.post("/principal-login", async (req, res) => {
+    const { username, password } = req.body;
+    console.log("Received login request:", req.body);
+    
+    try {
+        
+
+        // Fetch the user from the database
+        const user = await db.get(
+            "SELECT * FROM Principal WHERE username = ?",
+            [username]
+        );
+
+        console.log("User fetched from database:", user);
+
+        if (!user) {
+            res.status(400).send("Invalid username or password");
+            return;
+        }
+
+        // Compare the provided password with the stored hashed password
+        const isPasswordMatched = await bcrypt.compare(password, user.password);
+        console.log("Password match status:", isPasswordMatched);
+
+        if (isPasswordMatched) {
+            const payload = {
+                username: user.username,
+            };
+
+            // Sign the JWT token
+            const jwt_token = jwt.sign(payload, SECRET_KEY);
+            res.json({ jwt_token });
+        } else {
+            res.status(400).send("Invalid username or password");
+        }
+    } catch (error) {
+        console.error("Error during login", error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 app.post("/saveFormData", async (req, res) => {
     const { formName, department, semester, academicYear, section, subjects, feedback } = req.body;
@@ -328,7 +395,7 @@ app.post("/checkResults", async (req, res) => {
 // Start the server
 const startServer = async () => {
     await connectDB();
-    app.listen(PORT, () => {
+    app.listen("https://student-feedback-system-8ln5.onrender.com", () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
 };

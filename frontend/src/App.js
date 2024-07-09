@@ -7,7 +7,9 @@ import HodRegistrationForm from "./components/HodRegistrationForm";
 import HodLoginForm from "./components/HodLoginForm";
 import Principal from "./components/Principal";
 import FeedbackContext from './context/FeedbackContext.js';
-
+import FirstPage from './components/FirstPage';
+import PrincipalLoginForm from './components/PrincipalLoginForm/index.js';
+import PrincipalRegistration from "./components/principalRegistration"
 class App extends Component {
   state = {
     hodBranch: "CSE"
@@ -33,7 +35,10 @@ class App extends Component {
             <Route exact path="/hod-login" element={<HodLoginForm />} />
             <Route exact path="/hod-register" element={<HodRegistrationForm />} />
             <Route exact path="/principal" element={<Principal />} />
-            <Route exact path="/" element={<StudentFeedBackForm />} />
+            <Route exact path="/students" element={<StudentFeedBackForm />} />
+            <Route exact path="/" element={<FirstPage/>}/>
+            <Route exact path="/principal-login" element={<PrincipalLoginForm/>}/>
+            <Route exact path='/principal-register' element={<PrincipalRegistration/>}/>
           </Routes>
         </Router>
       </FeedbackContext.Provider>

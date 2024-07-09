@@ -15,6 +15,8 @@ class LoginForm extends Component {
     showSubmitError: false,
     errorMsg: '',
     branch: branchList[0],
+    shouldNavigateToRegister: false,
+    backToHome:false
   };
 
   onChangeUsername = event => {
@@ -32,7 +34,7 @@ class LoginForm extends Component {
   onSubmitSuccess = async (jwtToken, getHodBranch) => {
     const { branch } = this.state;
     Cookies.set('jwt_token', jwtToken, { expires: 30 });
-    
+    Cookies.set('branch_token', branch, { expires: 30 });
     getHodBranch(branch); // Set the branch in context
     
     await this.setState({ 
@@ -53,7 +55,7 @@ class LoginForm extends Component {
     event.preventDefault();
     const { username, password, branch } = this.state;
     const userDetails = { username, password, branch };
-    const url = 'http://localhost:5000/hod-login';
+    const url = 'https://student-feedback-system-8ln5.onrender.com/hod-login';
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
@@ -111,12 +113,26 @@ class LoginForm extends Component {
     );
   };
 
-  render() {
-    const { showSubmitError, errorMsg, branch } = this.state;
-    const jwtToken = Cookies.get('jwt_token');
+  navigateRegister = () => {
+    this.setState({ shouldNavigateToRegister: true });
+  };
+ 
+  onClickBackToHome =() => {
+    this.setState({backToHome:true})
+  }
 
+  render() {
+    const { showSubmitError, errorMsg, branch,shouldNavigateToRegister,backToHome} = this.state;
+    const jwtToken = Cookies.get('jwt_token');
+    if(backToHome){
+      return <Navigate to="/"/>
+    }
     if (jwtToken) {
       return <Navigate to="/hod" />;
+    }
+
+    if (shouldNavigateToRegister) {
+      return <Navigate to="/hod-register" />;
     }
 
     return (
@@ -155,7 +171,12 @@ class LoginForm extends Component {
                   </div>
                   <button type="submit" className="login-button">Login</button>
                   {showSubmitError && <p className="error-message">*{errorMsg}</p>}
-                </form>
+                  <div className='register-back-button-container'>
+                  <button type="button" onClick={this.navigateRegister} className="hod-register-button">Register</button>
+                  <button type="button" onClick={this.onClickBackToHome} className="hod-register-button">Back</button>
+             
+                  </div>
+                  </form>
               </div>
             </div>
           );

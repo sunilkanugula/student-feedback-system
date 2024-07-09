@@ -52,7 +52,7 @@ class StudentRegistrationForm extends Component {
     };
   
     try {
-      const response = await fetch('http://localhost:5000/hod-register', {
+      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/hod-register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
