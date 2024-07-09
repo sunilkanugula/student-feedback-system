@@ -56,7 +56,7 @@ const createTable = async () => {
     }
 };
 
-const PORT = 5000;
+const PORT =  process.env.PORT || 5000;;
 const SECRET_KEY = "MY_SECRET_KEY";
 
 // Route to handle form submission and insert data into database
@@ -395,7 +395,7 @@ app.post("/checkResults", async (req, res) => {
 // Start the server
 const startServer = async () => {
     await connectDB();
-    app.listen("https://student-feedback-system-8ln5.onrender.com", () => {
+    app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
 };
