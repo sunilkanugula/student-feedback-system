@@ -121,7 +121,7 @@ class LoginForm extends Component {
         <form className="form-container" onSubmit={this.submitForm}>
           <div className='heading-container'>
           <img
-            src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg"
+            src={svcLogo}
             className='svc-logo-login'
             alt="website logo"
           />

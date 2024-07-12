@@ -79,7 +79,7 @@ class StudentRegistrationForm extends Component {
       <div>
        <div className='top-hading-container'>
   <div className='college-info-container'>
-    <img className='svc-logo' src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg" alt="SVC Logo" />
+    <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
     <div className='college-heading-container'>
       <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
       <p>Approved by AICTE, New Delhi, Affiliated to JNTUK, Vizianagaram  ISO 9001:2015 Certified</p>
@@ -97,7 +97,7 @@ class StudentRegistrationForm extends Component {
           <form className='register-form-container' onSubmit={this.handleSubmit}>
             <div className='heading-container'>
               <img
-                src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg"
+                src={svcLogo}
                 className='svc-logo-login'
                 alt="website logo"
               />

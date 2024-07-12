@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import FeedBackFormCategories from "../feedBackFormCategories";
 import Cookies from 'js-cookie';
 import "./index.css";
+import svcLogo from "../../images/svclogo.jpg"
+
 
 const feedBackFormCategories = [
   { id: 1, name: "Punctuality" },
@@ -193,7 +195,7 @@ displayTablePage = () => {
         )}
       <div className='top-hading-container'>
   <div className='college-info-container'>
-    <img className='svc-logo' src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg" alt="SVC Logo" />
+    <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
     <div className='college-heading-container'>
       <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
       <p>Approved by AICTE- New Delhi, Affiliated to JNTUGV, Vizianagaram  ISO 9001:2015 Certified</p>
@@ -315,7 +317,7 @@ displayTablePage = () => {
           <div className='student-input-container'>
 <div className='top-hading-container'>
   <div className='college-info-container'>
-    <img className='svc-logo' src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg" alt="SVC Logo" />
+    <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
     <div className='college-heading-container'>
       <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
       <p>Approved by AICTE- New Delhi, Affiliated to JNTGV, Vizianagaram  ISO 9001:2015 Certified</p>

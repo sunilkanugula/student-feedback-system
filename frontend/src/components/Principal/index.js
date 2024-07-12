@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import Chart from 'chart.js/auto';
 import Cookies from 'js-cookie';
 import "./index.css";
-import { createBrowserHistory } from 'history';
+import svcLogo from "../../images/svclogo.jpg"
 
+// import { createBrowserHistory } from 'history';
+import principalStudentsImage from '../../images/principalstudents.jpg';
 const branchList = ["CSE", "AIML", "CSM", "ECE", "EEE", "CIVIL", "MECH"];
 
 class Principal extends Component {
@@ -278,7 +280,7 @@ class Principal extends Component {
       <div className="hod-bg-container">
         <div className='top-hading-container'>
           <div className='college-info-container'>
-            <img className='svc-logo' src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg" alt="SVC Logo" />
+            <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
             <div className='college-heading-container'>
               <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
               <p>Approved by AICTE, New Delhi, Affiliated to JNTUGV, Vizianagaram  ISO 9001:2015 Certified</p>
@@ -383,7 +385,7 @@ class Principal extends Component {
                 </div>
               </form>
               <div className='hod-previous-forms-container'>
-                <img className='principal-panel-img' src="https://api.hindustanuniv.ac.in/uploads/Mobile_view_8b94d2e532.jpg" />
+                <img className='principal-panel-img' src={principalStudentsImage} alt="students-img"/>
               </div>
             </div>
           </>

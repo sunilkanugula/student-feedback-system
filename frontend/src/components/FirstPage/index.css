@@ -21,8 +21,7 @@ body {
 .first-page-bg-container {
     display: flex;
     flex-direction: column;
-    background-image:  url("https://res.cloudinary.com/di1e0mwbu/image/upload/v1689837899/svc_clg_auto_x2_light_ai_hyplpy.jpg");
-    
+    background-image:  url("../../images/svcclg.jpg");
     background-size: cover;
     background-position: center;
 }

@@ -94,7 +94,7 @@ class StudentRegistrationForm extends Component {
           <form className='register-form-container' onSubmit={this.handleSubmit}>
             <div className='heading-container'>
               <img
-                src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg"
+                src={svcLogo}
                 className='svc-logo-login'
                 alt="website logo"
               />

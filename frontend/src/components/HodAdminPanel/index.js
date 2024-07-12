@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import FeedbackContext from "../../context/FeedbackContext.js";
 import { Navigate, useNavigate } from "react-router-dom";
 import "./index.css";
+import svcLogo from "../../images/svclogo.jpg"
 
 const branchList = ["CSE", "AIML", "CSM", "ECE", "EEE", "CIVIL", "MECH"];
 
@@ -135,7 +136,7 @@ const HodAdminPanel = () => {
         <div className="college-info-container">
           <img
             className="svc-logo"
-            src="https://res.cloudinary.com/di1e0mwbu/image/upload/v1711821173/wwhvi3uj82w507nruua6.jpg"
+            src={svcLogo}
             alt="SVC Logo"
           />
           <div className="college-heading-container">
