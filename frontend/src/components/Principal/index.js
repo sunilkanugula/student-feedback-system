@@ -1,12 +1,14 @@
+import { PiArrowLineRightBold } from "react-icons/pi";
+import { IoSettings } from "react-icons/io5";
+import { LuLogOut } from "react-icons/lu";
 import React, { Component } from "react";
 import Chart from 'chart.js/auto';
 import Cookies from 'js-cookie';
 import "./index.css";
-import svcLogo from "../../images/svclogo.jpg"
-
-// import { createBrowserHistory } from 'history';
+import svcLogo from "../../images/svclogo.jpg";
 import principalStudentsImage from '../../images/principalstudents.jpg';
 const branchList = ["CSE", "AIML", "CSM", "ECE", "EEE", "CIVIL", "MECH"];
+
 
 class Principal extends Component {
   constructor(props) {
@@ -29,34 +31,17 @@ class Principal extends Component {
     totalSubmissions: null,
     clicked: false,
     clickedIndex: null,
-    showGraph: true, // New state to toggle between graph and table
+    showGraph: true,
+    menuOpen: false // New state for menu visibility
   };
 
-  onSetFormName = (e) => {
-    this.setState({ formName: e.target.value });
-  };
-
-  onSetDepartment = (e) => {
-    this.setState({ department: e.target.value });
-  };
-
-  onSetSemester = (e) => {
-    this.setState({ semester: e.target.value });
-  };
-
-  onSetYear = (e) => {
-    this.setState({ academicYear: e.target.value });
-  };
-
+  onSetFormName = (e) => this.setState({ formName: e.target.value });
+  onSetDepartment = (e) => this.setState({ department: e.target.value });
+  onSetSemester = (e) => this.setState({ semester: e.target.value });
+  onSetYear = (e) => this.setState({ academicYear: e.target.value });
   onSetNoSubjects = (e) => {
     const numSubjects = parseInt(e.target.value);
-    this.setState({ no_subjects: numSubjects });
-
-    const subjects = Array.from({ length: numSubjects }, () => ({
-      subjectName: "",
-      facultyName: "",
-    }));
-    this.setState({ subjects });
+    this.setState({ no_subjects: numSubjects, subjects: Array.from({ length: numSubjects }, () => ({ subjectName: "", facultyName: "" })) });
   };
 
   onClickLogout = () => {
@@ -64,40 +49,28 @@ class Principal extends Component {
     window.location.replace('/principal-login');
   };
 
-  onChangeSection = (e) => this.setState({ section: e.target.value });
+  onClickSettings = () => {
+    this.setState(prevState => ({ menuOpen: !prevState.menuOpen }));
+  };
 
+  onChangeSection = (e) => this.setState({ section: e.target.value });
   onChangeFeedBackAttempt = (e) => this.setState({ feedback: e.target.value });
 
   displayFacultyAndSubjects = async (e) => {
     e.preventDefault();
     const { department, semester, academicYear, section, feedback } = this.state;
 
-    if (
-      department !== "" &&
-      section !== "" &&
-      semester !== "" &&
-      academicYear !== "" &&
-      feedback !== ""
-    ) {
+    if (department && section && semester && academicYear && feedback) {
       try {
         const response = await fetch('https://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            department,
-            semester,
-            academicYear,
-            section,
-            feedback
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ department, semester, academicYear, section, feedback })
         });
 
         if (!response.ok) {
           alert("No data found");
           throw new Error('Failed to fetch data');
-          
         }
 
         const data = await response.json();
@@ -129,14 +102,8 @@ class Principal extends Component {
     try {
       const response = await fetch('https://student-feedback-system-8ln5.onrender.com/checkResults', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          subjectName,
-          facultyName,
-          formId
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subjectName, facultyName, formId })
       });
 
       if (!response.ok) {
@@ -144,8 +111,7 @@ class Principal extends Component {
       }
 
       const data = await response.json();
-
-      this.setState({ feedbackList: data.feedBackList, totalSubmissions: data.totalSubmissions.total_submissions })
+      this.setState({ feedbackList: data.feedBackList, totalSubmissions: data.totalSubmissions.total_submissions });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -163,23 +129,19 @@ class Principal extends Component {
       return;
     }
 
-    // Check if the canvas element exists before accessing its context
     if (!this.chartRef.current) {
       console.error('Canvas element is not available');
       return;
     }
 
     const ctx = this.chartRef.current.getContext('2d');
-
-    // Check if the context is available
     if (!ctx) {
       console.error('Canvas context is not available');
       return;
     }
 
-    // Check if there's already a chart instance
     if (this.chartInstance) {
-      this.chartInstance.destroy(); // Destroy the existing chart
+      this.chartInstance.destroy();
     }
 
     const categories = feedbackList.map((item) => item.category);
@@ -201,12 +163,8 @@ class Principal extends Component {
       },
       options: {
         scales: {
-          y: {
-            beginAtZero: true,
-          },
-          x: {
-            stacked: true,
-          },
+          y: { beginAtZero: true },
+          x: { stacked: true },
         },
       },
     });
@@ -245,20 +203,19 @@ class Principal extends Component {
 
   renderTable() {
     const { feedbackList, totalSubmissions } = this.state;
-  
+
     return (
       <table className="principal-table">
-        <thead style={{height:"70px"}}>
+        <thead style={{ height: "70px" }}>
           <tr>
-            <th style={{borderTopLeftRadius:"10px"}}>Category</th>
-            <th style={{borderTopRightRadius:"10px"}}>Total Percentage</th>
+            <th style={{ borderTopLeftRadius: "10px" }}>Category</th>
+            <th style={{ borderTopRightRadius: "10px" }}>Total Percentage</th>
           </tr>
         </thead>
         <tbody>
           {feedbackList.map((item, index) => (
             <tr key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
               <td className="category-row">{item.category}</td>
-              
               <td className="percentage-row">
                 <div className="percentage-cell">
                   {((item.rating / (totalSubmissions * 4)) * 100).toFixed(2)}%
@@ -270,12 +227,11 @@ class Principal extends Component {
       </table>
     );
   }
-  
-  
 
   render() {
-    const { feedback, subjectsBasedOnInput, facultyNames, showTablePage, clicked, clickedIndex, semester, department, section, totalSubmissions, showGraph } = this.state;
+    const { feedback, subjectsBasedOnInput, facultyNames, showTablePage, clicked, clickedIndex, semester, department, section, totalSubmissions, showGraph, menuOpen } = this.state;
     console.log(totalSubmissions);
+
     return (
       <div className="hod-bg-container">
         <div className='top-hading-container'>
@@ -288,12 +244,24 @@ class Principal extends Component {
             </div>
             <button
               type="button"
-              className="logout-btn"
-              onClick={this.onClickLogout}
+              className="settings-btn"
+              onClick={this.onClickSettings}
             >
-              Logout
+             
+              Settings{ }   
+              < IoSettings  className="settings-icon"/>
             </button>
+            
           </div>
+        </div>
+
+        <div className={`settings-menu ${menuOpen ? 'open' : ''}`}>
+        <div className="icon-container">
+      <PiArrowLineRightBold className="custom-icon"  onClick={this.onClickSettings}/>
+        </div>
+          <button type="button" className="principal-logout-btn " onClick={this.onClickLogout}>Logout <  LuLogOut className="logout-icon"/></button>
+          <button type="button" className="show-register-btn">Show Register Button</button>
+          <button type="button" className="change-password-btn">Change Password</button>
         </div>
 
         {!showTablePage ? (
@@ -396,7 +364,7 @@ class Principal extends Component {
                 <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Department: {department}</h4>
                 <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Semester: {semester}</h4>
                 <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Section: {section}</h4>
-                <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Academic Year: {this.state.academicYear}</h4>
+                <h4 style={{ height: "20px", margin: "0px" }}>Academic Year: {this.state.academicYear}</h4>
                 <h4 style={{ height: "20px", margin: "0px" }}>Review: {feedback}</h4>
                 <h4 style={{ height: "20px", margin: "0px" }}>Feedback Submitted by: {totalSubmissions} Students</h4>
               </div>
@@ -415,18 +383,18 @@ class Principal extends Component {
                 </ul>
               </div>
               <div className="table-back-container">
-              <button type="button" className="back-btn" onClick={this.onClickBack}>Back</button>
-              <button type="button" className="toggle-view-btn" onClick={this.toggleView}>
-                {showGraph ? 'Show Table' : 'Show Graph'}
-              </button>
-            </div>
+                <button type="button" className="back-btn" onClick={this.onClickBack}>Back</button>
+                <button type="button" className="toggle-view-btn" onClick={this.toggleView}>
+                  {showGraph ? 'Show Table' : 'Show Graph'}
+                </button>
+              </div>
             </div>
             <div className="table-graph-container">
-            {showGraph ? (
-              <canvas ref={this.chartRef}></canvas>
-            ) : (
-              this.renderTable()
-            )}
+              {showGraph ? (
+                <canvas ref={this.chartRef}></canvas>
+              ) : (
+                this.renderTable()
+              )}
             </div>
           </div>
         )}
