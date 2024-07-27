@@ -17,7 +17,8 @@ class LoginForm extends Component {
     errorMsg: '',
     branch: branchList[0],
     shouldNavigateToRegister: false,
-    backToHome:false
+    backToHome:false,
+    showRegisterButton:undefined
   };
 
   onChangeUsername = event => {
@@ -56,7 +57,7 @@ class LoginForm extends Component {
     event.preventDefault();
     const { username, password, branch } = this.state;
     const userDetails = { username, password, branch };
-    const url = 'https://student-feedback-system-8ln5.onrender.com/hod-login';
+    const url = 'http://localhost:5000/hod-login';
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
@@ -77,6 +78,54 @@ class LoginForm extends Component {
     } catch (error) {
       console.error('Error submitting form:', error);
       this.onSubmitFailure('An error occurred. Please try again later.');
+    }
+  };
+  componentDidMount() {
+    this.fetchRegisterSettings();
+  }
+
+  fetchRegisterSettings = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/registerSettings", { method: "GET" });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+
+      const data = await response.json();
+      this.setState({ showRegisterButton: data.showRegisterButton });
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  onClickRegisterBtn = async () => {
+    const { showRegisterButton } = this.state;
+
+    try {
+      // Calculate the opposite boolean value
+      const updatedShowRegisterButton = showRegisterButton === 1 ? 0 : 1;
+
+      // Send PUT request to update the showRegisterButton value
+      const response = await fetch("http://localhost:5000/registerBtnUpdates", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ showRegisterButton: updatedShowRegisterButton }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update showRegisterButton: ${response.status}`);
+      }
+
+      // Update state with the new showRegisterButton value
+      this.setState({ showRegisterButton: updatedShowRegisterButton });
+
+    } catch (error) {
+      console.error('Error updating register settings:', error);
+      // Handle error (e.g., show error message to user)
     }
   };
 
@@ -123,7 +172,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { showSubmitError, errorMsg, branch,shouldNavigateToRegister,backToHome} = this.state;
+    const { showSubmitError, errorMsg, branch,shouldNavigateToRegister,backToHome,showRegisterButton} = this.state;
     const jwtToken = Cookies.get('jwt_token');
     if(backToHome){
       return <Navigate to="/"/>
@@ -173,7 +222,8 @@ class LoginForm extends Component {
                   <button type="submit" className="login-button">Login</button>
                   {showSubmitError && <p className="error-message">*{errorMsg}</p>}
                   <div className='register-back-button-container'>
-                  <button type="button" onClick={this.navigateRegister} className="hod-register-button">Register</button>
+                    {showRegisterButton ? <button type="button" onClick={this.navigateRegister} className="hod-register-button">Register</button>: ""}
+                  
                   <button type="button" onClick={this.onClickBackToHome} className="hod-register-button">Back</button>
              
                   </div>

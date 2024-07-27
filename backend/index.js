@@ -62,7 +62,7 @@ const SECRET_KEY = "MY_SECRET_KEY";
 // Route to handle form submission and insert data into database
 app.post("/register", async (req, res) => {
     const { username, password, branch, student_id } = req.body;
-    console.log(req.body,"hhii");
+   
 
     try {
         // Check if the username already exists
@@ -74,7 +74,7 @@ app.post("/register", async (req, res) => {
         const { count } = await db.get(checkUsernameQuery, [username]);
         
         if (count > 0) {
-            console.log(count,"count")
+    
             // Username already exists, send a message indicating so
             return res.status(400).send("Username already exists");
         }
@@ -145,13 +145,13 @@ app.post("/principal-register", async (req, res) => {
 // Route to handle login
 app.post("/login", async (req, res) => {
     const { username, password ,branch} = req.body;
-    console.log(username,password)
+    
     try {
         const user = await db.get(
             "SELECT * FROM students WHERE username = ?",
             [username] 
         );
-       console.log(user)
+       
         if (!user) {
            
             res.status(400).send("Invalid username or password");
@@ -176,22 +176,21 @@ app.post("/login", async (req, res) => {
 
 app.post("/hod-login", async (req, res) => {
     const { username, password ,branch} = req.body;
-    console.log("hhi:",req.body)
-    console.log(username,password,branch)
+    
     try {
         const user = await db.get(
             "SELECT * FROM hod_details WHERE username = ? AND branch = ?",
             [username,branch]
         );
        
-       console.log(user)
+       
         if (!user) {
            
             res.status(400).send("Invalid username or password");
             return;
         }
         const isPasswordMatched = await bcrypt.compare(password, user.password);
-        console.log(isPasswordMatched)
+        
         if (isPasswordMatched) {
             const payload = {
                 username: user.username,
@@ -210,8 +209,6 @@ app.post("/hod-login", async (req, res) => {
 
 app.post("/principal-login", async (req, res) => {
     const { username, password } = req.body;
-    console.log("Received login request:", req.body);
-    
     try {
         
 
@@ -230,7 +227,7 @@ app.post("/principal-login", async (req, res) => {
 
         // Compare the provided password with the stored hashed password
         const isPasswordMatched = await bcrypt.compare(password, user.password);
-        console.log("Password match status:", isPasswordMatched);
+    
 
         if (isPasswordMatched) {
             const payload = {
@@ -275,7 +272,7 @@ app.post("/saveFormData", async (req, res) => {
         );
 
         const formId = formInsertResult.lastID;
-        console.log(`Inserted form data with ID: ${formId}`);
+       
 
         // Insert subject allocation data into 'subject_allocation' table
         await Promise.all(subjects.map(async ({ subjectName, facultyName }) => {
@@ -325,7 +322,6 @@ app.post("/fetchFacultyAndSubjects", async (req, res) => {
         const getFeedBackIdQuery =  `SELECT form_id
         FROM form_data WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ?`
         const formId = await db.get(getFeedBackIdQuery, [department, semester, academicYear, section,feedback]);
-        console.log(formId)
         const query2 = `SELECT  total_submissions FROM FeedBackData where form_id= ?`
         const totalSubmissions = await db.get(query2, [formId.form_id]);
         console.log(totalSubmissions)
@@ -340,7 +336,7 @@ app.post('/FeedbackData', async (req, res) => {
     
     try {
         const {allSubjectsReview,formId} = req.body;
-          console.log(allSubjectsReview)
+        
         // Iterate over the received feedback data
         for (const subjectName in allSubjectsReview) {
             const feedback = allSubjectsReview[subjectName];
@@ -352,7 +348,7 @@ app.post('/FeedbackData', async (req, res) => {
                     'SELECT * FROM FeedbackData WHERE form_id = ? AND subjectName = ? AND category = ?',
                     [formId, subjectName, category]
                 );
-                console.log("feedback",existingFeedback)
+    
                 if (existingFeedback) {
                     // If a row exists, update the existing rating with the new rating
                     await db.run(
@@ -381,7 +377,7 @@ app.post('/FeedbackData', async (req, res) => {
 app.post("/checkResults", async (req, res) => {
     
   const {facultyName,subjectName,formId} = req.body
-  console.log(formId)
+  
   const {faculty_name } = facultyName
   const {subject_name} = subjectName
   const query1 = `SELECT category, rating FROM FeedBackData WHERE subjectName = ? AND form_id = ? ORDER BY category ASC`;
@@ -389,9 +385,44 @@ app.post("/checkResults", async (req, res) => {
     const feedBackList = await db.all(query1, [subject_name,formId]);
     const query2 = `SELECT  total_submissions FROM FeedBackData where subjectName = ? AND form_id= ?`
     const totalSubmissions = await db.get(query2, [subject_name,formId]);
-   console.log(feedBackList,totalSubmissions)
+   
    res.json({feedBackList,totalSubmissions})
 });
+
+//Show Register Button settings
+app.get('/registerSettings', async (req, res) => {
+    try {
+        const query = `SELECT showRegisterButton FROM registration_settings;`;
+        const getResult = await db.get(query); // Assuming db is your database connection object
+
+         // Debugging: log the result to see what is fetched
+
+        // Assuming getResult is an object or JSON-serializable value
+        res.json(getResult); // Send the fetched result as JSON response
+    } catch (error) {
+        console.error("Error fetching register settings:", error);
+        res.status(500).json({ error: "Failed to fetch register settings" });
+    }
+});
+
+app.put('/registerBtnUpdates', async (req, res) => {
+    
+    const {showRegisterButton} = req.body;
+    
+    try {
+        // Update the value in the database
+        const query = `UPDATE registration_settings SET showRegisterButton = ?`;
+        await db.run(query, [showRegisterButton]);
+        
+        // Respond with updated value
+        res.json({ showRegisterButton});
+    } catch (error) {
+        console.error('Error updating showRegisterButton:', error);
+        res.status(500).json({ error: 'Failed to update showRegisterButton' });
+    }
+});
+
+
 // Start the server
 const startServer = async () => {
     await connectDB();

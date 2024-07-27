@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import FeedBackFormCategories from "../feedBackFormCategories";
 import Cookies from 'js-cookie';
 import "./index.css";
+import svcLogo from "../../images/svclogo.jpg"
+
 
 const feedBackFormCategories = [
   { id: 1, name: "Punctuality" },
@@ -86,7 +88,7 @@ class StudentFeedBackForm extends Component {
   insertFeedbackData = async () => {
     const { allSubjectsReview ,formId} = this.state;
     try {
-        const response = await fetch('https://student-feedback-system-8ln5.onrender.com/FeedbackData', {
+        const response = await fetch('http://localhost:5000/FeedbackData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -164,10 +166,10 @@ class StudentFeedBackForm extends Component {
     }
   };
 
-  onClickLogout = () => {
-    Cookies.remove('student_token');
-    window.location.replace('/login');
-  };
+  // onClickLogout = () => {
+  //   Cookies.remove('student_token');
+  //   window.location.replace('/login');
+  // };
 
   closePageLoadPopup = () => {
     this.setState({ showPageLoadPopup: false });
@@ -195,17 +197,11 @@ displayTablePage = () => {
   <div className='college-info-container'>
     <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
     <div className='college-heading-container'>
-      <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
-      <p>Approved by AICTE, New Delhi, Affiliated to JNTUK, Vizianagaram  ISO 9001:2015 Certified</p>
-      <p>Contact: +91 9705576693  Email: principal@svcet.edu.in</p>
+      <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+      <p>Approved by AICTE- New Delhi, Affiliated to JNTUGV, Vizianagaram  ISO 9001:2015 Certified</p>
+      <p>Contact: +91 9705576693  Email: principal_svcet@yahoo.com,www.svcet.net</p>
     </div>
-    <button
-      type="button"
-      className="logout-btn"
-      onClick={this.onClickLogout}
-    >
-      Logout
-    </button>
+   
     {!showTablePage && (
       <button onClick={this.displayFacultyAndSubjects} className='display-faculty-btn'>Display Faculty and Subjects</button>
     )}
@@ -237,7 +233,7 @@ displayTablePage = () => {
           </tbody>
         </table>
         <div className='bottom-button-container'>
-          <button onClick={this.findAverage} className='calculate-percentage-btn'>Calculate Percentage</button>
+          <button onClick={this.findAverage} className='calculate-percentage-btn'>Submit</button>
         </div>
         {this.state.showCalculatePopup && this.state.averagePercentages && (
           <div>
@@ -253,7 +249,7 @@ displayTablePage = () => {
                 <p>Please note: Some subjects have incomplete reviews and their percentages are not available.</p>
               )}
               <div style={{ textAlign: 'right' }}>
-                <button className='back-logout-btn' onClick={this.onClickLogout}>Logout</button>
+                
                 <button className='back-logout-btn' onClick={this.closeCalculatePopup}>Back</button>
               </div>
             </div>
@@ -268,7 +264,7 @@ displayTablePage = () => {
     
 
     try {
-      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
+      const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -319,24 +315,17 @@ displayTablePage = () => {
         {!showTablePage && (
 
           <div className='student-input-container'>
-            <div className='top-hading-container'>
+<div className='top-hading-container'>
   <div className='college-info-container'>
     <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
     <div className='college-heading-container'>
-      <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
-      <p>Approved by AICTE, New Delhi, Affiliated to JNTUK, Vizianagaram  ISO 9001:2015 Certified</p>
-      <p>Contact: +91 9705576693  Email: principal@svcet.edu.in</p>
+      <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+      <p>Approved by AICTE- New Delhi, Affiliated to JNTGV, Vizianagaram  ISO 9001:2015 Certified</p>
+      <p>Contact: +91 9705576693  Email: principal_svcet@yahoo.com,www.svcet.net</p>
     </div>
-    <button
-      type="button"
-      className="logout-btn"
-      onClick={this.onClickLogout}
-    >
-      Logout
-    </button>
     
   </div>
-</div>
+</div>            
 <h1 className='student-feedback-heading'>Student Feedback</h1>
 <div className='student-input-form-bg-container'>
 

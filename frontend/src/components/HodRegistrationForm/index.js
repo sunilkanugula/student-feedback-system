@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 import svcLogo from "../../images/svclogo.jpg"
 
 import './StudentRegistrationForm.css';
+import { Navigate } from 'react-router-dom';
 const branchList = [
   "CSE",
   "AIML",
@@ -20,6 +21,7 @@ class StudentRegistrationForm extends Component {
       username: '',
       password: '',
       branch: branchList[0],
+      isShowRegisterOption:false
     
     };
   }
@@ -41,6 +43,26 @@ class StudentRegistrationForm extends Component {
     console.log(value)
   }
 
+  componentDidMount() {
+    this.fetchRegisterSettings();
+  }
+
+  fetchRegisterSettings = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/registerSettings", { method: "GET" });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+
+      const data = await response.json();
+      this.setState({ isShowRegisterOption: data.showRegisterButton });
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +75,7 @@ class StudentRegistrationForm extends Component {
     };
   
     try {
-      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/hod-register', {
+      const response = await fetch('http://localhost:5000/hod-register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -76,6 +98,10 @@ class StudentRegistrationForm extends Component {
   };
   
   render() {
+    const {isShowRegisterOption} = this.state;
+    if(isShowRegisterOption === 0){
+      return <Navigate to="/hod-login" />
+    }
     return (
       <div>
        <div className='top-hading-container'>

@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import "./index.css";
 import svcLogo from "../../images/svclogo.jpg";
 import principalStudentsImage from '../../images/principalstudents.jpg';
+import { Navigate } from "react-router-dom";
 const branchList = ["CSE", "AIML", "CSM", "ECE", "EEE", "CIVIL", "MECH"];
 
 
@@ -32,7 +33,8 @@ class Principal extends Component {
     clicked: false,
     clickedIndex: null,
     showGraph: true,
-    menuOpen: false // New state for menu visibility
+    menuOpen: false ,// New state for menu visibility,
+    showRegisterButton:0,
   };
 
   onSetFormName = (e) => this.setState({ formName: e.target.value });
@@ -49,8 +51,55 @@ class Principal extends Component {
     window.location.replace('/principal-login');
   };
 
-  onClickSettings = () => {
+  onClickRegisterBtn = async () => {
+    const { showRegisterButton } = this.state;
+  
+    try {
+      // Calculate the opposite boolean value
+      const updatedShowRegisterButton = showRegisterButton === 1 ? 0 : 1;
+  
+      // Send PUT request to update the showRegisterButton value
+      const response = await fetch("http://localhost:5000/registerBtnUpdates", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ showRegisterButton: updatedShowRegisterButton }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to update showRegisterButton: ${response.status}`);
+      }
+  
+      // Parse the response JSON data
+      const data = await response.json();
+      console.log(data)
+      // Update state with the new showRegisterButton value
+      this.setState({ showRegisterButton: data.showRegisterButton });
+  
+    } catch (error) {
+      console.error('Error updating register settings:', error);
+      // Handle error (e.g., show error message to user)
+    }
+  };
+  
+
+  onClickSettings = async() => {
     this.setState(prevState => ({ menuOpen: !prevState.menuOpen }));
+    const jwtToken = Cookies.get("principal_jwt_token")
+    const {showRegisterButton} = this.state
+    console.log(showRegisterButton)
+    try {
+      const response = await fetch("http://localhost:5000/registerSettings", { method: "GET" });
+      if (!response.ok) {
+          throw new Error('Network response was not ok.');
+      }
+      const data = await response.json();
+      this.setState({showRegisterButton:data.showRegisterButton})
+  } catch (error) {
+      console.error('Error fetching data:', error);
+  }
+  
   };
 
   onChangeSection = (e) => this.setState({ section: e.target.value });
@@ -62,7 +111,7 @@ class Principal extends Component {
 
     if (department && section && semester && academicYear && feedback) {
       try {
-        const response = await fetch('https://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
+        const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ department, semester, academicYear, section, feedback })
@@ -100,7 +149,7 @@ class Principal extends Component {
     const facultyName = facultyNames[index];
 
     try {
-      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/checkResults', {
+      const response = await fetch('http://localhost:5000/checkResults', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subjectName, facultyName, formId })
@@ -201,9 +250,10 @@ class Principal extends Component {
     }));
   };
 
+
   renderTable() {
     const { feedbackList, totalSubmissions } = this.state;
-
+  //  const  backgroundColor= showRegisterButton === 1 ? 'red' : 'transparent'
     return (
       <table className="principal-table">
         <thead style={{ height: "70px" }}>
@@ -229,9 +279,13 @@ class Principal extends Component {
   }
 
   render() {
-    const { feedback, subjectsBasedOnInput, facultyNames, showTablePage, clicked, clickedIndex, semester, department, section, totalSubmissions, showGraph, menuOpen } = this.state;
+    const { feedback, subjectsBasedOnInput, facultyNames, showTablePage,showRegisterButton, clicked, clickedIndex, semester, department, section, totalSubmissions, showGraph, menuOpen } = this.state;
     console.log(totalSubmissions);
-
+    const principalJwtToken = Cookies.get("principal_jwt_token");
+   // const  backgroundColorRed= showRegisterButton === 1 ? 'red' : 'transparent';
+    if(!principalJwtToken){
+      return <Navigate to ="/principal-login"/>
+    }
     return (
       <div className="hod-bg-container">
         <div className='top-hading-container'>
@@ -248,7 +302,7 @@ class Principal extends Component {
               onClick={this.onClickSettings}
             >
              
-              Settings{ }   
+              Settings{  }   
               < IoSettings  className="settings-icon"/>
             </button>
             
@@ -260,7 +314,8 @@ class Principal extends Component {
       <PiArrowLineRightBold className="custom-icon"  onClick={this.onClickSettings}/>
         </div>
           <button type="button" className="principal-logout-btn " onClick={this.onClickLogout}>Logout <  LuLogOut className="logout-icon"/></button>
-          <button type="button" className="show-register-btn">Show Register Button</button>
+          <button type="button"  className={showRegisterButton === 0 ? 'show-register-btn' : 'show-register-btn-bg-red'}
+ onClick={this.onClickRegisterBtn}>{showRegisterButton === 1 ? "Don't allow to Register" :"Allow to Register"}</button>
           <button type="button" className="change-password-btn">Change Password</button>
         </div>
 

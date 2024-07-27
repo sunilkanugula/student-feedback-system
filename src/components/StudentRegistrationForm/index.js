@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from "uuid"
+import svcLogo from "../../images/svclogo.jpg"
 
 import './StudentRegistrationForm.css';
 const branchList = [
@@ -57,7 +58,7 @@ class StudentRegistrationForm extends Component {
     };
   
     try {
-      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/register', {
+      const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
