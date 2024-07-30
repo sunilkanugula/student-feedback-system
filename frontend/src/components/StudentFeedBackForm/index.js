@@ -3,7 +3,10 @@ import FeedBackFormCategories from "../feedBackFormCategories";
 import Cookies from 'js-cookie';
 import "./index.css";
 import svcLogo from "../../images/svclogo.jpg"
+import sunil from '../../images/sunil.jpg';
+import sunil1 from '../../images/sunil1.png';
 import studentswithLpatops from "../../images/studentswithLpatops.jpg"
+import { Navigate } from 'react-router-dom';
 
 const feedBackFormCategories = [
   { id: 1, name: "Punctuality" },
@@ -56,7 +59,8 @@ class StudentFeedBackForm extends Component {
       subjectsBasedOnInput: [],
       timer: 10, // 10 minutes in seconds
       timerEnded: false,
-      borderWidth: 10
+      borderWidth: 10,
+      goToHome:false
     };
   }
 
@@ -175,7 +179,7 @@ startTimer = () => {
             0
           );
           averagePercentages[subject] =
-            (total / (feedBackFormCategories.length *subjectsBasedOnInput.length)) * 100;
+            (total / (feedBackFormCategories.length *4)*100);
         }
   
         // Show the calculation popup
@@ -198,7 +202,8 @@ startTimer = () => {
   };
 
   closeCalculatePopup = () => {
-    this.setState({ showCalculatePopup: false });
+    this.setState({ showCalculatePopup: false ,goToHome:true});
+
   };
 
 displayTablePage = () => {
@@ -271,21 +276,33 @@ displayTablePage = () => {
         </div>
         {this.state.showCalculatePopup && this.state.averagePercentages && (
           <div>
-          <div className='pop-up-overlay' onClick={this.closeCalculatePopup}></div>
+          <div className='pop-up-overlay' ></div>
           <div className='pop-up-container'>
-            <h3>Subject Percentages:</h3>
+          <div style={{ textAlign: 'right',margin:"0px" }}>
+              <button style={{margin:"0px"}} className='back-logout-btn' onClick={this.closeCalculatePopup}>Back</button>
+            </div>
+         
+            <h3 style={{marginTop:"0px"}}>Subject Percentages:</h3>
             {Object.entries(this.state.averagePercentages).map(([subject, percentage]) => (
               !isNaN(percentage) && (
-                <p key={subject}>{subject}: {percentage}%</p>
+                <p style={{marginLeft:"3px"}} key={subject}>{subject}: {percentage.toFixed(2)}%</p>
               )
             ))}
             {Object.entries(this.state.averagePercentages).some(([subject, percentage]) => isNaN(percentage)) && (
               <p>Please note: Some subjects have incomplete reviews and their percentages are not available.</p>
             )}
-            <div style={{ textAlign: 'right' }}>
-              
-              <button className='back-logout-btn' onClick={this.closeCalculatePopup}>Back</button>
+            <hr style={{ color: "white", width: "80%", height: "2px", backgroundColor: "white", border: "none", margin: "20px auto" }} />
+
+            <div className='developer-name-img-container'>
+              <img src={sunil1} alt="developer-img" className='developer-img'/>
+              <p style={{ textAlign: "center", margin: "4px" }}>
+  Developed by : <span style={{ fontFamily: "Georgia, 'Times New Roman', Times, serif", fontStyle: "italic", fontWeight: "300" }}>Kanugula Sunil Kumar</span>
+</p>
+
+              <h5 style={{textAlign: "center",margin:"2px"}}>Thank You</h5>
             </div>
+          
+           
           </div>
         </div>
         )}
@@ -340,8 +357,11 @@ displayTablePage = () => {
 
   
   render() {
-    const { department, semester, academicYear, classSection, showPageLoadPopup, showTablePage,allSubjectsReview } = this.state;
+    const { department, semester,goToHome, academicYear, classSection, showPageLoadPopup, showTablePage,allSubjectsReview } = this.state;
     console.log(allSubjectsReview)
+    if(goToHome){
+      return <Navigate to="/"/>
+    }
     return (
       <div className="svc-feedback-form-container">
         
@@ -403,7 +423,7 @@ displayTablePage = () => {
                 <option value="2024-2025">2024-2025</option>
                 <option value="2025-2026">2025-2026</option>
                 <option value="2026-2027">2026-2027</option>
-                <option value="2027-2028">2027-2028</option>
+                <option value="2027-2028">2027-2028</option> 
                 <option value="2028-2029">2028-2029</option>
               </select>
             </div>

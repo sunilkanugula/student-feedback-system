@@ -8,7 +8,7 @@ import svcLogo from "../../images/svclogo.jpg"
 const branchList = ["CSE", "AIML", "CSM", "ECE", "EEE", "CIVIL", "MECH"];
 
 const HodAdminPanel = () => {
-  
+  const [formName, setFormName] = useState("");
   const [semester, setSemester] = useState("1-1");
   const [academicYear, setAcademicYear] = useState("2024-2025");
   const [noSubjects, setNoSubjects] = useState(0);
@@ -18,7 +18,7 @@ const HodAdminPanel = () => {
   const { hodBranch } = useContext(FeedbackContext);
   const navigate = useNavigate();
 
- 
+  const onSetFormName = (e) => setFormName(e.target.value);
   const onSetSemester = (e) => setSemester(e.target.value);
   const onSetYear = (e) => setAcademicYear(e.target.value);
 
@@ -80,7 +80,7 @@ const HodAdminPanel = () => {
     e.preventDefault();
 
     if (
-     
+      formName !== "" &&
       section !== "" &&
       semester !== "" &&
       academicYear !== "" &&
@@ -88,7 +88,7 @@ const HodAdminPanel = () => {
       feedback !== ""
     ) {
       const formData = {
-     
+        formName,
         department: hodBranch,
         semester,
         academicYear,
@@ -158,6 +158,17 @@ const HodAdminPanel = () => {
       </h1>
       <div className="hod-form-bg-container">
         <form className="hod-form" onSubmit={handleSubmit}>
+          <div className="hod-input-take-container">
+            <label htmlFor="formName">Form Name</label>
+            <input
+              className="hod-input"
+              onChange={onSetFormName}
+              type="text"
+              id="formName"
+              name="formName"
+              placeholder="Enter Form Name"
+            />
+          </div>
           <div className="hod-input-take-container">
             <label htmlFor="department">Department</label>
             <select

@@ -147,7 +147,12 @@ body{
   .pop-up-container button {
     margin-bottom: 10px;
   }
-
+.thank-you-back-btn{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
   .back-logout-btn{
     margin-left: 5px;
     color: #064663;
@@ -162,7 +167,14 @@ body{
    font-size: 15px;
    font-weight: 600;
     }
-  
+  .developer-img{
+    height:60px;
+    width: 60px;
+    border-radius: 100%;
+    padding: 0px;
+    background-color:  #f48181; 
+    background-size: cover;
+  }
   .student-input-form-bg-container{
     display: flex;
     flex-direction: row;
@@ -223,4 +235,9 @@ body{
     margin-top: 7px;
   }
 
-  
+  .developer-name-img-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }

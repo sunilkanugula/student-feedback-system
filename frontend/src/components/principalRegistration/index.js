@@ -100,9 +100,9 @@ class StudentRegistrationForm extends Component {
   <div className='college-info-container'>
     <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
     <div className='college-heading-container'>
-      <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
-      <p>Approved by AICTE, New Delhi, Affiliated to JNTUK, Vizianagaram  ISO 9001:2015 Certified</p>
-      <p>Contact: +91 9705576693  Email: principal@svcet.edu.in</p>
+    <h1>SRI VENKATESWARA COLLEGE OF ENGINEERING & TECHNOLOGY</h1>
+              <p>Approved by AICTE, New Delhi, Affiliated to JNTUGV, Vizianagaram  ISO 9001:2015 Certified</p>
+              <p>Contact: +91 9705576693  Email: principal_svcet@yahoo.com,www.svcet.net</p>
     </div>
    
     
