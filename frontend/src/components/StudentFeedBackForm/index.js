@@ -3,7 +3,7 @@ import FeedBackFormCategories from "../feedBackFormCategories";
 import Cookies from 'js-cookie';
 import "./index.css";
 import svcLogo from "../../images/svclogo.jpg"
-
+import studentswithLpatops from "../../images/studentswithLpatops.jpg"
 
 const feedBackFormCategories = [
   { id: 1, name: "Punctuality" },
@@ -53,20 +53,39 @@ class StudentFeedBackForm extends Component {
       showCalculatePopup: false,
       showTablePage: false,
       facultyNames: [],
-      subjectsBasedOnInput: []
+      subjectsBasedOnInput: [],
+      timer: 10, // 10 minutes in seconds
+      timerEnded: false,
+      borderWidth: 10
     };
   }
 
-  componentDidMount() {
-    // Fetch user input for department, semester, academic year, and class section here
-    // Example:
-    // this.setState({
-    //   department: "Computer Science",
-    //   semester: "Spring",
-    //   academicYear: "2024",
-    //   classSection: "A",
-    // });
+  countDown = () => {
+    const initialTime = this.state.timer;
+    this.timerInterval = setInterval(() => {
+      this.setState(prevState => {
+        if (prevState.timer > 0) {
+          const newBorderWidth = (prevState.timer / initialTime) * 10;
+          return { 
+            timer: prevState.timer - 1,
+            borderWidth: newBorderWidth
+          };
+        } else {
+          clearInterval(this.timerInterval);
+          return { timerEnded: true };
+        }
+      });
+    }, 1000);
   }
+  componentWillUnmount() {
+    clearInterval(this.timerInterval);
+  }
+
+  formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   changeReview = (categoryName, subjectName, value) => {
     
@@ -110,7 +129,10 @@ class StudentFeedBackForm extends Component {
     }
 }
 
-
+startTimer = () => {
+  this.closePageLoadPopup();
+  this.countDown();
+};
 
   findAverage = () => {
     const { allSubjectsReview,subjectsBasedOnInput } = this.state;
@@ -180,19 +202,21 @@ class StudentFeedBackForm extends Component {
   };
 
 displayTablePage = () => {
-    const { facultyNames, subjectsBasedOnInput ,showTablePage,showPageLoadPopup} = this.state;
+    const { facultyNames, subjectsBasedOnInput ,showTablePage,showPageLoadPopup,timer,borderWidth} = this.state;
     
     return (
       <>
       {showPageLoadPopup && (
           <div>
-            <div className='pop-up-overlay' onClick={this.closePageLoadPopup}></div>
+            <div className='pop-up-overlay'></div>
             <div className='pop-up-container' style={{ textAlign: "center" }}>
               <h5>Student Feedback Form !</h5>
               <p>Note:- Nobody can see your data ,the feedback data can be represented as total average percentage of your classroom</p>
+              <button className='start-btn' onClick={this.startTimer}>Start</button>
             </div>
           </div>
         )}
+          
       <div className='top-hading-container'>
   <div className='college-info-container'>
     <img className='svc-logo' src={svcLogo} alt="SVC Logo" />
@@ -201,7 +225,14 @@ displayTablePage = () => {
       <p>Approved by AICTE- New Delhi, Affiliated to JNTUGV, Vizianagaram  ISO 9001:2015 Certified</p>
       <p>Contact: +91 9705576693  Email: principal_svcet@yahoo.com,www.svcet.net</p>
     </div>
-   
+    <div className='timer-submit-btn-container'>
+    {!this.state.timerEnded &&<div className="timer" style={{ borderWidth: `${borderWidth}px`}}>
+          <p>Time remaining: {this.formatTime(timer)}</p>
+        </div>}
+        {this.state.timerEnded && (
+    <button onClick={this.findAverage} className='calculate-percentage-btn'>Submit</button>
+  )}
+  </div>
     {!showTablePage && (
       <button onClick={this.displayFacultyAndSubjects} className='display-faculty-btn'>Display Faculty and Subjects</button>
     )}
@@ -233,27 +264,30 @@ displayTablePage = () => {
           </tbody>
         </table>
         <div className='bottom-button-container'>
-          <button onClick={this.findAverage} className='calculate-percentage-btn'>Submit</button>
+        <div className='bottom-button-container'>
+ 
+</div>
+
         </div>
         {this.state.showCalculatePopup && this.state.averagePercentages && (
           <div>
-            <div className='pop-up-overlay' onClick={this.closeCalculatePopup}></div>
-            <div className='pop-up-container'>
-              <h3>Subject Percentages:</h3>
-              {Object.entries(this.state.averagePercentages).map(([subject, percentage]) => (
-                !isNaN(percentage) && (
-                  <p key={subject}>{subject}: {percentage}%</p>
-                )
-              ))}
-              {Object.entries(this.state.averagePercentages).some(([subject, percentage]) => isNaN(percentage)) && (
-                <p>Please note: Some subjects have incomplete reviews and their percentages are not available.</p>
-              )}
-              <div style={{ textAlign: 'right' }}>
-                
-                <button className='back-logout-btn' onClick={this.closeCalculatePopup}>Back</button>
-              </div>
+          <div className='pop-up-overlay' onClick={this.closeCalculatePopup}></div>
+          <div className='pop-up-container'>
+            <h3>Subject Percentages:</h3>
+            {Object.entries(this.state.averagePercentages).map(([subject, percentage]) => (
+              !isNaN(percentage) && (
+                <p key={subject}>{subject}: {percentage}%</p>
+              )
+            ))}
+            {Object.entries(this.state.averagePercentages).some(([subject, percentage]) => isNaN(percentage)) && (
+              <p>Please note: Some subjects have incomplete reviews and their percentages are not available.</p>
+            )}
+            <div style={{ textAlign: 'right' }}>
+              
+              <button className='back-logout-btn' onClick={this.closeCalculatePopup}>Back</button>
             </div>
           </div>
+        </div>
         )}
       </>
     );
@@ -393,7 +427,7 @@ displayTablePage = () => {
             <button onClick={this.displayFacultyAndSubjects} className='student-display-faculty-btn'>Display Faculty and Subjects</button>
             </div>
             </div>
-            <img src="https://t4.ftcdn.net/jpg/07/17/28/65/360_F_717286558_GPQc1BbF2wplbhj7YtwyFKucgVq8J77W.jpg"/>
+            <img src={studentswithLpatops} alt="studentswithLpatops"/>
             </div>
             {/* {!showTablePage && (
       <button onClick={this.displayFacultyAndSubjects} className='display-faculty-btn'>Display Faculty and Subjects</button>

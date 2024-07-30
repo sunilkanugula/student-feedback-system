@@ -9,7 +9,9 @@ import Principal from "./components/Principal";
 import FeedbackContext from './context/FeedbackContext.js';
 import FirstPage from './components/FirstPage';
 import PrincipalLoginForm from './components/PrincipalLoginForm/index.js';
-import PrincipalRegistration from "./components/principalRegistration"
+import PrincipalRegistration from "./components/principalRegistration";
+import ThankYou from "./components/ThankYou";
+
 class App extends Component {
   state = {
     hodBranch: "CSE"
@@ -39,6 +41,7 @@ class App extends Component {
             <Route exact path="/" element={<FirstPage/>}/>
             <Route exact path="/principal-login" element={<PrincipalLoginForm/>}/>
             <Route exact path='/principal-register' element={<PrincipalRegistration/>}/>
+            <Route exact path="/thank-you" element={<ThankYou/>}/>
           </Routes>
         </Router>
       </FeedbackContext.Provider>

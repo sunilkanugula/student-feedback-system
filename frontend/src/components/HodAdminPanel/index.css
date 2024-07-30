@@ -67,3 +67,15 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
+.logout-btn{
+    background-color: #ECB365;
+    color: #064663;
+    height: 40px;
+    align-self: center;
+    border: none;
+    width: 100px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}

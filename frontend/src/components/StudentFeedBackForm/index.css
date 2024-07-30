@@ -34,15 +34,69 @@ body{
   .svc-logo{
     height: 100px;
     border-radius: 50%;
-    margin-top: 20px;
+    margin-top: 35px;
     
     margin-left: 30px;
   }
   .college-heading-container{
     width: 80%;
   }
-
-  .logout-btn{
+  .timer-submit-btn-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    justify-content: center;
+  }
+  .timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 90px;
+    background-color: #ffd079;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    animation: pulse 1s infinite;
+    position: relative;
+    
+   padding: 10px;
+  }
+  
+  .timer p {
+    color: #212f49;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+    animation: fadeIn 2s;
+    position: absolute;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .calculate-percentage-btn{
      background-color: #ECB365;
      color: #064663;
      height: 40px;
@@ -54,14 +108,7 @@ body{
      margin-bottom: 40px;
 
   }
-  .calculate-percentage-btn{
-    background-color: #0a3457;
-    height: 40px;
-    color: white;
-    border:none;
-    font-weight: 500;
-    border-radius: 10px;
-  }
+
   .bottom-button-container{
     text-align: center;
     margin-top: 20px;
@@ -107,6 +154,15 @@ body{
     height: 30px;
     font-weight: bold;
   }
+  .start-btn{
+   border-radius: 4px;
+   border: none;
+   height: 30px;
+   width: 70px;
+   font-size: 15px;
+   font-weight: 600;
+    }
+  
   .student-input-form-bg-container{
     display: flex;
     flex-direction: row;
