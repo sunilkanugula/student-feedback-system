@@ -1,1 +1,1 @@
-SELECT * FROM FeedbackData
+DELETE FROM form_data
