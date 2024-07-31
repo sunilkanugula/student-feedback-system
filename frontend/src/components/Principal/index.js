@@ -26,6 +26,7 @@ class Principal extends Component {
     facultyNames: [],
     formId: null,
     section: "A",
+    subjectType:"Theoretical",
     feedback: 1,
     showTablePage: false,
     feedbackList: [],
@@ -104,17 +105,18 @@ class Principal extends Component {
 
   onChangeSection = (e) => this.setState({ section: e.target.value });
   onChangeFeedBackAttempt = (e) => this.setState({ feedback: e.target.value });
+  onChangeSubjectType = (e) => this.setState({subjectType: e.target.value}); // Added change handler for subject type
 
   displayFacultyAndSubjects = async (e) => {
     e.preventDefault();
-    const { department, semester, academicYear, section, feedback } = this.state;
+    const { department, semester, academicYear, section, feedback,subjectType } = this.state;
 
     if (department && section && semester && academicYear && feedback) {
       try {
         const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ department, semester, academicYear, section, feedback })
+          body: JSON.stringify({ department, semester, academicYear, section, feedback,subjectType })
         });
 
         if (!response.ok) {
@@ -244,6 +246,7 @@ class Principal extends Component {
     clickedIndex: null
   });
 
+
   toggleView = () => {
     this.setState((prevState) => ({
       showGraph: !prevState.showGraph
@@ -279,7 +282,7 @@ class Principal extends Component {
   }
 
   render() {
-    const { feedback, subjectsBasedOnInput, facultyNames, showTablePage,showRegisterButton, clicked, clickedIndex, semester, department, section, totalSubmissions, showGraph, menuOpen } = this.state;
+    const { feedback, subjectsBasedOnInput, facultyNames,subjectType, showTablePage,showRegisterButton, clicked, clickedIndex, semester, department, section, totalSubmissions, showGraph, menuOpen } = this.state;
     console.log(totalSubmissions);
     const principalJwtToken = Cookies.get("principal_jwt_token");
    // const  backgroundColorRed= showRegisterButton === 1 ? 'red' : 'transparent';
@@ -360,6 +363,18 @@ class Principal extends Component {
                   </select>
                 </div>
                 <div className="hod-input-take-container">
+              <label htmlFor="subjectType">Select Subject Type</label>
+              <select
+                className="hod-input"
+                id="subjectType"
+                onChange={this.onChangeSubjectType}
+                value={subjectType}
+              >
+                <option value="Theoretical">Theoretical</option>
+                <option value="Practical">Practical(Labs)</option>
+              </select>
+            </div>
+                <div className="hod-input-take-container">
                   <label htmlFor="year">Current Academic Year</label>
                   <select
                     className="hod-input"
@@ -419,9 +434,11 @@ class Principal extends Component {
                 <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Department: {department}</h4>
                 <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Semester: {semester}</h4>
                 <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Section: {section}</h4>
+                <h4 style={{ height: "20px", margin: "0px", marginBottom: "2px" }}>Subject Type : {subjectType}</h4>
                 <h4 style={{ height: "20px", margin: "0px" }}>Academic Year: {this.state.academicYear}</h4>
                 <h4 style={{ height: "20px", margin: "0px" }}>Review: {feedback}</h4>
                 <h4 style={{ height: "20px", margin: "0px" }}>Feedback Submitted by: {totalSubmissions} Students</h4>
+              
               </div>
               <div>
                 <h2 style={{ textAlign: 'center', color: '#074173' }}>Faculty and Subject Names:</h2>

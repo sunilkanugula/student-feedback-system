@@ -47,6 +47,7 @@ class StudentFeedBackForm extends Component {
       semester: "1-1",
       academicYear: "2024-2025",
       classSection: "A",
+      subjectType:"Theoretical",
       feedback:1,
       allSubjectsReview: {},
       formId:null,
@@ -311,7 +312,7 @@ displayTablePage = () => {
   }
 
   displayFacultyAndSubjects = async () => {
-    const { department, semester, academicYear, classSection,feedback,formId } = this.state;
+    const { department, semester, academicYear, classSection,feedback,formId,subjectType } = this.state;
     
 
     try {
@@ -325,7 +326,8 @@ displayTablePage = () => {
           semester,
           academicYear,
           section: classSection,
-          feedback
+          feedback,
+          subjectType,
         })
       });
   
@@ -354,10 +356,11 @@ displayTablePage = () => {
   };
 
   onChangeFeedBackAttempt = (e) => this.setState({feedback:e.target.value})
+ onChangeSubjectType = (e) => this.setState({subjectType: e.target.value}); // Added change handler for subject type
 
   
   render() {
-    const { department, semester,goToHome, academicYear, classSection, showPageLoadPopup, showTablePage,allSubjectsReview } = this.state;
+    const { department, semester,goToHome, academicYear,subjectType, classSection, showPageLoadPopup, showTablePage,allSubjectsReview } = this.state;
     console.log(allSubjectsReview)
     if(goToHome){
       return <Navigate to="/"/>
@@ -427,6 +430,21 @@ displayTablePage = () => {
                 <option value="2028-2029">2028-2029</option>
               </select>
             </div>
+
+            
+            <div className="student-input-take-container">
+              <label htmlFor="subjectType">Select Subject Type</label>
+              <select
+                className="hod-input"
+                id="subjectType"
+                onChange={this.onChangeSubjectType}
+                value={subjectType}
+              >
+                <option value="Theoretical">Theoretical</option>
+                <option value="Practical">Practical(Labs)</option>
+              </select>
+            </div>
+
             <div className="student-input-take-container">
               <label className='student-input-label' htmlFor="section"> Class Section Name</label>
               <select className="student-input" id="section" onChange={(e) => this.setState({ classSection: e.target.value })} value={classSection}>
@@ -447,7 +465,7 @@ displayTablePage = () => {
             <button onClick={this.displayFacultyAndSubjects} className='student-display-faculty-btn'>Display Faculty and Subjects</button>
             </div>
             </div>
-            <img src={studentswithLpatops} alt="studentswithLpatops"/>
+            <img src={studentswithLpatops} alt="studentswithLpatops" style={{width:"50%"}}/>
             </div>
             {/* {!showTablePage && (
       <button onClick={this.displayFacultyAndSubjects} className='display-faculty-btn'>Display Faculty and Subjects</button>

@@ -6,28 +6,28 @@
     flex-direction: column;
 
 }
+.principal-form-bg-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 .principal-form{
     width: 30%;
-   
     background-color: #03506F;
     color: white;
-    height: 500px;
+    height: 550px;
     padding: 20px;
     box-sizing: border-box;
     border-radius: 10px 0px  0px 10px;
 } 
 .principal-panel-img{
-    height: 500px;
+    height: 550px;
     border-radius:  0px 10px 10px 0px;
     align-self: center;
 }
-.principal-form-bg-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+
 .hod-input{
     display: block;
     border-style: solid;

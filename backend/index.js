@@ -248,50 +248,51 @@ app.post("/principal-login", async (req, res) => {
 
 
 app.post("/saveFormData", async (req, res) => {
-    const { formName, department, semester, academicYear, section, subjects, feedback } = req.body;
-    
-    if (!formName || !department || !semester || !academicYear || !section || !feedback || subjects.length === 0) {
-        return res.status(400).json({ error: 'Required fields are missing' });
+    const { formName, department, semester, academicYear, section, subjects, feedback, subjectType } = req.body;
+  
+    // Check for required fields
+    if (!formName || !department || !semester || !academicYear || !section || !feedback || !subjectType || subjects.length === 0) {
+      return res.status(400).json({ error: 'Required fields are missing' });
     }
-
-    const checkCombination = await db.get(
-        `SELECT * FROM form_data WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt =?`,
-        [department, semester, academicYear, section,feedback]
-    );
-
-    if (checkCombination) {
+  
+    try {
+      // Check for existing combination
+      const checkCombination = await db.get(
+        `SELECT * FROM form_data WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ? AND subjectType = ?`,
+        [department, semester, academicYear, section, feedback,subjectType]
+      );
+  
+      if (checkCombination) {
         console.log("Combination already exists");
         return res.status(400).json({ error: 'You have already created' });
-    }
-
-    try {
-        // Insert form data into 'form_data' table
-        const formInsertResult = await db.run(
-            `INSERT INTO form_data (form_name, department, semester, academic_year, section, feedback_attempt) VALUES (?, ?, ?, ?, ?, ?)`,
-            [formName, department, semester, academicYear, section, feedback]
+      }
+  
+      // Insert form data into 'form_data' table
+      const formInsertResult = await db.run(
+        `INSERT INTO form_data (form_name, department, semester, academic_year, section, feedback_attempt, subjectType) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [formName, department, semester, academicYear, section, feedback, subjectType]
+      );
+  
+      const formId = formInsertResult.lastID;
+  
+      // Insert subject allocation data into 'subject_allocation' table
+      await Promise.all(subjects.map(async ({ subjectName, facultyName }) => {
+        await db.run(
+          `INSERT INTO subject_allocation (form_id, subject_name, faculty_name) VALUES (?, ?, ?)`,
+          [formId, subjectName, facultyName]
         );
-
-        const formId = formInsertResult.lastID;
-       
-
-        // Insert subject allocation data into 'subject_allocation' table
-        await Promise.all(subjects.map(async ({ subjectName, facultyName }) => {
-            await db.run(
-                `INSERT INTO subject_allocation (form_id, subject_name, faculty_name) VALUES (?, ?, ?)`,
-                [formId, subjectName, facultyName]
-            );
-        }));
-
-        res.json({ message: "Form data saved successfully" });
+      }));
+  
+      res.json({ message: "Form data saved successfully" });
     } catch (error) {
-        console.error("Error saving form data:", error.message);
-        res.status(500).json({ error: "Internal Server Error" });
+      console.error("Error saving form data:", error.message);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-});
-
+  });
+  
 
 app.post("/fetchFacultyAndSubjects", async (req, res) => {
-    const { department, semester, academicYear, section,feedback } = req.body;
+    const { department, semester, academicYear, section,feedback,subjectType } = req.body;
     //console.log(req.body)
     try {
         // Fetch faculty names and subject names based on user inputs from the database
@@ -301,10 +302,10 @@ app.post("/fetchFacultyAndSubjects", async (req, res) => {
             WHERE form_id IN (
                 SELECT form_id
                 FROM form_data
-                WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ?
+                WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ? AND subjectType = ?
             )
         `;
-        const facultyNames = await db.all(query, [department, semester, academicYear, section,feedback]);
+        const facultyNames = await db.all(query, [department, semester, academicYear, section,feedback,subjectType]);
        // console.log(facultyNames)
         const subjectQuery = `
             SELECT  subject_name
@@ -312,19 +313,19 @@ app.post("/fetchFacultyAndSubjects", async (req, res) => {
             WHERE form_id IN (
                 SELECT form_id
                 FROM form_data
-                WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ?
+                WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ? AND subjectType = ?
             )
         `;
         
-        const subjectNames = await db.all(subjectQuery, [department, semester, academicYear, section,feedback]);
-        //console.log(subjectNames)
+        const subjectNames = await db.all(subjectQuery, [department, semester, academicYear, section,feedback,subjectType]);
+        console.log(subjectNames)
         
         const getFeedBackIdQuery =  `SELECT form_id
-        FROM form_data WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ?`
-        const formId = await db.get(getFeedBackIdQuery, [department, semester, academicYear, section,feedback]);
+        FROM form_data WHERE department = ? AND semester = ? AND academic_year = ? AND section = ? AND feedback_attempt = ? AND subjectType = ?`
+        const formId = await db.get(getFeedBackIdQuery, [department, semester, academicYear, section,feedback,subjectType]);
         const query2 = `SELECT  total_submissions FROM FeedBackData where form_id= ?`
         const totalSubmissions = await db.get(query2, [formId.form_id]);
-        console.log(totalSubmissions)
+        //console.log(totalSubmissions)
         res.json({ facultyNames, subjectNames ,formId,totalSubmissions});
     } catch (error) {
         console.error("Error fetching faculty names and subject names:", error.message);
