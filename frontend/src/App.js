@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import StudentFeedBackForm from "./components/StudentFeedBackForm";
-import StudentRegistrationForm from "./components/StudentRegistrationForm";
 import HodAdminPanel from "./components/HodAdminPanel";
 import HodRegistrationForm from "./components/HodRegistrationForm";
 import HodLoginForm from "./components/HodLoginForm";
@@ -10,7 +9,6 @@ import FeedbackContext from './context/FeedbackContext.js';
 import FirstPage from './components/FirstPage';
 import PrincipalLoginForm from './components/PrincipalLoginForm/index.js';
 import PrincipalRegistration from "./components/principalRegistration";
-import ThankYou from "./components/ThankYou";
 
 class App extends Component {
   state = {
@@ -33,7 +31,7 @@ class App extends Component {
           <Routes>
             <Route exact path='/hod' element={<HodAdminPanel />} />
            
-            <Route exact path="/register" element={<StudentRegistrationForm />} />
+           
             <Route exact path="/hod-login" element={<HodLoginForm />} />
             <Route exact path="/hod-register" element={<HodRegistrationForm />} />
             <Route exact path="/principal" element={<Principal />} />
@@ -41,7 +39,6 @@ class App extends Component {
             <Route exact path="/" element={<FirstPage/>}/>
             <Route exact path="/principal-login" element={<PrincipalLoginForm/>}/>
             <Route exact path='/principal-register' element={<PrincipalRegistration/>}/>
-            <Route exact path="/thank-you" element={<ThankYou/>}/>
           </Routes>
         </Router>
       </FeedbackContext.Provider>

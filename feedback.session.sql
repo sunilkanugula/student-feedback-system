@@ -1,1 +1,1 @@
-DELETE FROM form_data
+DELETE FROM FeedbackData
