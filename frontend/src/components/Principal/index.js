@@ -60,7 +60,7 @@ class Principal extends Component {
       const updatedShowRegisterButton = showRegisterButton === 1 ? 0 : 1;
   
       // Send PUT request to update the showRegisterButton value
-      const response = await fetch("http://localhost:5000/registerBtnUpdates", {
+      const response = await fetch("http://student-feedback-system-8ln5.onrender.com/registerBtnUpdates", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ class Principal extends Component {
     const {showRegisterButton} = this.state
     console.log(showRegisterButton)
     try {
-      const response = await fetch("http://localhost:5000/registerSettings", { method: "GET" });
+      const response = await fetch("http://student-feedback-system-8ln5.onrender.com/registerSettings", { method: "GET" });
       if (!response.ok) {
           throw new Error('Network response was not ok.');
       }
@@ -113,7 +113,7 @@ class Principal extends Component {
 
     if (department && section && semester && academicYear && feedback) {
       try {
-        const response = await fetch('http://localhost:5000/fetchFacultyAndSubjects', {
+        const response = await fetch('http://student-feedback-system-8ln5.onrender.com/fetchFacultyAndSubjects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ department, semester, academicYear, section, feedback,subjectType })
@@ -151,7 +151,7 @@ class Principal extends Component {
     const facultyName = facultyNames[index];
 
     try {
-      const response = await fetch('http://localhost:5000/checkResults', {
+      const response = await fetch('http://student-feedback-system-8ln5.onrender.com/checkResults', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subjectName, facultyName, formId })
