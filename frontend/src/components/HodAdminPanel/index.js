@@ -102,7 +102,7 @@ const HodAdminPanel = () => {
       };
 
       try {
-        const response = await fetch("http://student-feedback-system-8ln5.onrender.com/saveFormData", {
+        const response = await fetch("http://192.168.210.96/saveFormData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

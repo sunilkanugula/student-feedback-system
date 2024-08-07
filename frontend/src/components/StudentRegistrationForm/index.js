@@ -58,7 +58,7 @@ class StudentRegistrationForm extends Component {
     };
   
     try {
-      const response = await fetch('http://student-feedback-system-8ln5.onrender.com/register', {
+      const response = await fetch('http://192.168.210.96/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

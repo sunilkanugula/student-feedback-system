@@ -43,7 +43,7 @@ class PrincipalLoginForm extends Component {
     const { username, password } = this.state;
     if(username !== "" && password !==""){
       const userDetails = { username, password };
-    const url = 'http://student-feedback-system-8ln5.onrender.com/principal-login';
+    const url = 'http://192.168.210.96/principal-login';
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
@@ -78,7 +78,7 @@ class PrincipalLoginForm extends Component {
 
   fetchRegisterSettings = async () => {
     try {
-      const response = await fetch("http://student-feedback-system-8ln5.onrender.com/registerSettings", { method: "GET" });
+      const response = await fetch("http://192.168.210.96/registerSettings", { method: "GET" });
 
       if (!response.ok) {
         throw new Error('Network response was not ok.');
