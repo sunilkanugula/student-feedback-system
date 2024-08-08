@@ -49,7 +49,7 @@ class StudentRegistrationForm extends Component {
 
   fetchRegisterSettings = async () => {
     try {
-      const response = await fetch("http://192.168.210.96/registerSettings", { method: "GET" });
+      const response = await fetch("https://student-feedback-system-8ln5.onrender.com/registerSettings", { method: "GET" });
 
       if (!response.ok) {
         throw new Error('Network response was not ok.');
@@ -75,7 +75,7 @@ class StudentRegistrationForm extends Component {
     };
   
     try {
-      const response = await fetch('http://192.168.210.96/hod-register', {
+      const response = await fetch('https://student-feedback-system-8ln5.onrender.com/hod-register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
